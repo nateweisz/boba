@@ -45,6 +45,7 @@
     <modules>
         <module>core</module>
         <module>ansi</module>
+        <module>components-core</module>
     </modules>
 
     <build>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.weisz</groupId>
+        <artifactId>boba-parent</artifactId>
+        <version>2025.5.4-alpha</version>
+    </parent>
+
+    <artifactId>boba-components-core</artifactId>
+    <name>Component Cor</name>
+    <description>A providing an abstraction over the base render method to allow dynamic components</description>
+    <url>https://github.com/pot/boba</url>
+
+    <properties>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>dev.weisz</groupId>
+            <artifactId>boba</artifactId>
+            <version>2025.5.4-alpha</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

@@ -194,7 +194,6 @@ public abstract class Program<Model> {
                 }
 
                 processCmd(() -> new Msg.KeyClickMsg((char) input));
-
                 LOGGER.debug("Input: (Raw) {} (Char) {}", input, (char) input);
             } catch (IOException e) {
                 throw new RuntimeException(e);

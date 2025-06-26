@@ -1,3 +1,6 @@
+import org.jspecify.annotations.NullMarked;
+
+@NullMarked
 module dev.weisz.boba {
     exports dev.weisz.boba;
     exports dev.weisz.boba.tea;

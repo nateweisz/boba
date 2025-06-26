@@ -1,3 +1,4 @@
+@NullMarked
 module dev.weisz.ansi {
     exports dev.weisz.ansi;
     exports dev.weisz.ansi.parser;
