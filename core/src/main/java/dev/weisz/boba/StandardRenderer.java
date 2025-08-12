@@ -4,6 +4,7 @@ import dev.weisz.ansi.*;
 import dev.weisz.ansi.parser.Width;
 import dev.weisz.boba.tea.Msg;
 import dev.weisz.boba.terminal.WinSize;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public class StandardRenderer implements Renderer {
     private final OutputStream out;
     private final int fps;
 
-    private Timer timer; // timer that calls the flush function (started based on fps)
+    private @Nullable Timer timer; // timer that calls the flush function (started based on fps)
     private final AtomicBoolean running = new AtomicBoolean(false); // ensure we only stop the timer once
 
     // set via the update received msg
@@ -68,9 +69,9 @@ public class StandardRenderer implements Renderer {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
             if (altScreen) {
-                buffer.writeBytes(Cursor.CURSOR_HOME_POSITION.getBytes(StandardCharsets.UTF_8));
+                buffer.writeBytes(EscapeSequences.moveCursorOrigin().getBytes(StandardCharsets.UTF_8));
             } else if (linesRendered > 1) {
-                buffer.writeBytes(Cursor.cursorUp(linesRendered - 1).getBytes(StandardCharsets.UTF_8));
+                buffer.writeBytes(EscapeSequences.cursorUp(linesRendered - 1).getBytes(StandardCharsets.UTF_8));
             }
 
             List<String> newLines = Arrays.stream(bufferStr.split("\n")).toList();
@@ -89,7 +90,7 @@ public class StandardRenderer implements Renderer {
                 }
 
                 if (Width.width(line) < width) {
-                    line += Screen.ERASE_LINE_RIGHT;
+                    line += EscapeSequences.eraseInLine(0);
                 }
 
                 // we need to truncate some stuff here
@@ -101,11 +102,11 @@ public class StandardRenderer implements Renderer {
             }
 
             if (lastRenderedLines.size() > newLines.size()) {
-                buffer.writeBytes(Screen.ERASE_SCREEN_BELOW.getBytes(StandardCharsets.UTF_8));
+                buffer.writeBytes(EscapeSequences.eraseInDisplay().getBytes(StandardCharsets.UTF_8));
             }
 
             if (altScreen) {
-                buffer.writeBytes(Cursor.cursorPosition(0, newLines.size()).getBytes(StandardCharsets.UTF_8));
+                buffer.writeBytes(EscapeSequences.moveCursor(0, newLines.size()).getBytes(StandardCharsets.UTF_8));
                 altLinesRendered = newLines.size();
             } else {
                 buffer.writeBytes("\r".getBytes(StandardCharsets.UTF_8));
@@ -178,8 +179,8 @@ public class StandardRenderer implements Renderer {
     @Override
     public void clearScreen() {
         synchronized (this) {
-            execute(Screen.ERASE_ENTIRE_SCREEN);
-            execute(Cursor.CURSOR_HOME_POSITION);
+            execute(EscapeSequences.eraseInDisplay(2));
+            execute(EscapeSequences.moveCursorOrigin());
 
             repaint();
         }
@@ -319,7 +320,7 @@ public class StandardRenderer implements Renderer {
     @Override
     public void setWindowTitle(String title) {
         synchronized (this) {
-            execute(Screen.setWindowTitle(title));
+            execute(EscapeSequences.setWindowTitle(title));
         }
     }
 
