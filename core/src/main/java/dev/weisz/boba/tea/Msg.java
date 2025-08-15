@@ -2,7 +2,7 @@ package dev.weisz.boba.tea;
 
 /**
  * Marker type for messages sent to a program which trigger
- * the {@link Program#update(Object, Msg)} method.
+ * the {@link Program#update(Msg)} method.
  */
 public interface Msg {
     record QuitMsg() implements Msg {}
