@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.weisz</groupId>
+        <artifactId>boba-parent</artifactId>
+        <version>2025.8.14-alpha</version>
+    </parent>
+
+    <artifactId>boba-ssh</artifactId>
+    <name>SSH</name>
+    <description>A package providing extensible ssh support to boba</description>
+    <url>https://github.com/pot/boba</url>
+
+    <properties>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.sshd</groupId>
+            <artifactId>sshd-core</artifactId>
+            <version>2.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.weisz</groupId>
+            <artifactId>boba</artifactId>
+            <version>2025.8.14-alpha</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

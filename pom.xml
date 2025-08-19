@@ -45,6 +45,7 @@
     <modules>
         <module>core</module>
         <module>ansi</module>
+        <module>ssh</module>
     </modules>
 
     <build>
