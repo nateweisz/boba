@@ -22,11 +22,14 @@ public class SSHTest {
     public static void main(String[] args) throws IOException, InterruptedException {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(12133);
+
         var hostKeys = new SimpleGeneratorHostKeyProvider(Paths.get("/tmp/a.ser"));
         sshd.setShellFactory(InteractiveProcessShellFactory.INSTANCE);
+
         sshd.setSessionHeartbeat(SessionHeartbeatController.HeartbeatType.IGNORE, Duration.ofSeconds(5));
         sshd.setKeyPairProvider(hostKeys);
         hostKeys.loadKeys(null);
+
         sshd.setPasswordAuthenticator((username, password, session) -> true);
         sshd.setPublickeyAuthenticator((username, pubkey, session) -> true);
         sshd.setForwardingFilter(AcceptAllForwardingFilter.INSTANCE);

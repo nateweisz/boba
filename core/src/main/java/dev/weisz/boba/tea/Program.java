@@ -48,27 +48,26 @@ public abstract class Program {
         // rn we will assume that its running inside a terminal but in the future we need to handle everything
         // from my testing, I don't think these signals are ever sent (even when terminal is closed forcefully)
         if (!opts.useDefaultSignalHandler()) {
-            Signal.handle(new Signal("INT"), _ -> {
-                // always will be successfully since uncapped queue
-                msgQueue.offer(new Msg.InteruptMsg());
-            });
+            opts.interruptHandler().addHandler(
+                    terminal,
+                    msgQueue::offer
+            );
 
-            Signal.handle(new Signal("TERM"), _ -> {
-                msgQueue.offer(new Msg.QuitMsg());
-            });
+            opts.terminateHandler().addHandler(
+                    terminal,
+                    msgQueue::offer
+            );
         }
 
         // TODO: discuss further on discord the usage of this "unsafe" api
-        // from some core devs, they dont have any plans to remove it and if they do
+        // from some core java devs: they dont have any plans to remove it and if they do
         // a actual api will replace it
         // this is how apache handled avoiding the usage of it:
         // https://issues.apache.org/jira/browse/HADOOP-19329
-        Signal.handle(new Signal("WINCH"), _ -> {
-            processCmd(() -> {
-                WinSize WinSize = terminal.getWinSize();
-                return new Msg.WindowSizeMsg(WinSize.height(), WinSize.width());
-            });
-        });
+        opts.winchHandler().addHandler(
+                terminal,
+                msgQueue::offer
+        );
 
         // TODO: allow configurable renderer
         renderer = new StandardRenderer(opts.output(), opts.fps());
@@ -97,8 +96,8 @@ public abstract class Program {
 
         // set initial size inside the renderer
         processCmd(() -> {
-            WinSize WinSize = terminal.getWinSize();
-            return new Msg.WindowSizeMsg(WinSize.height(), WinSize.width());
+            WinSize winSize = terminal.getWinSize();
+            return new Msg.WindowSizeMsg(winSize.height(), winSize.width());
         });
 
         renderer.start();

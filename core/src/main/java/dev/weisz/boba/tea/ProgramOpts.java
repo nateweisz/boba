@@ -1,11 +1,10 @@
 package dev.weisz.boba.tea;
 
+import dev.weisz.boba.SignalHandler;
 import org.jspecify.annotations.Nullable;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import dev.weisz.boba.terminal.WinSize;
 
 // TODO: add filters (needs to be more thought through) we could consider something like the spring web filter chains
 public record ProgramOpts(
@@ -20,7 +19,10 @@ public record ProgramOpts(
         boolean withoutRenderer,
         int fps,
         boolean reportFocusChange,
-        String startupTitle
+        String startupTitle,
+        SignalHandler winchHandler,
+        SignalHandler interruptHandler,
+        SignalHandler terminateHandler
 
 ) {
     private static final int MIN_FPS = 1;
@@ -44,6 +46,9 @@ public record ProgramOpts(
         private int fps = DEFAULT_FPS;
         private boolean reportFocusChange = true;
         private String startupTitle = "";
+        private SignalHandler winchHandler = new SignalHandler.Winch();
+        private SignalHandler interruptHandler = new SignalHandler.Interrupt();
+        private SignalHandler terminateHandler = new SignalHandler.Terminate();
 
         public Builder output(OutputStream output) {
             this.output = output;
@@ -107,6 +112,21 @@ public record ProgramOpts(
             return this;
         }
 
+        public Builder winchHandler(SignalHandler handler) {
+            this.winchHandler = handler;
+            return this;
+        }
+
+        public Builder interruptHandler(SignalHandler handler) {
+            this.interruptHandler = handler;
+            return this;
+        }
+
+        public Builder terminateHandler(SignalHandler handler) {
+            this.terminateHandler = handler;
+            return this;
+        }
+
         public ProgramOpts build() {
             return new ProgramOpts(
                     output,
@@ -120,7 +140,10 @@ public record ProgramOpts(
                     withoutRenderer,
                     fps,
                     reportFocusChange,
-                    startupTitle
+                    startupTitle,
+                    winchHandler,
+                    interruptHandler,
+                    terminateHandler
             );
         }
     }
