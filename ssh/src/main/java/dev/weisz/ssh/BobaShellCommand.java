@@ -56,7 +56,7 @@ public class BobaShellCommand implements Command {
                             .build()
             );
 
-            environment.addSignalListener(SignalListener);
+            environment.addSignal
         }).start();
     }
 
