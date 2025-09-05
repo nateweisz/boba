@@ -44,24 +44,24 @@ public class BobaShellCommand implements Command {
     }
 
     @Override
-    public void start(ChannelSession channelSession, Environment environment) throws IOException {
+    public void start(ChannelSession channelSession, Environment environment) {
         Thread.startVirtualThread(() -> {
             var program = supplier.create(in, out);
             program.run(
                     ProgramOpts.builder()
                             .input(in)
-                            .output(
-                                    out
-                            )
+                            .output(out)
+                            .winchHandler(new SSHSignalHandler.Winch(environment))
+                            .interruptHandler(new SSHSignalHandler.Interrupt(environment))
+                            .terminateHandler(new SSHSignalHandler.Terminate(environment))
+                            .makeTerminal(false)
                             .build()
             );
-
-            environment.addSignal
         }).start();
     }
 
     @Override
-    public void destroy(ChannelSession channelSession) throws Exception {
+    public void destroy(ChannelSession channelSession) {
 
     }
 }

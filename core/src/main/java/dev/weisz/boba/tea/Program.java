@@ -34,16 +34,19 @@ public abstract class Program {
         // 0 = input
         // 1 = output
         // ref look at FileDescriptor.java
-        terminal = Terminal.create();
-        if (!terminal.isTerminal(0)) {
-            throw new UnsupportedOperationException("The system input is not a terminal.");
-        }
-        if (!terminal.isTerminal(1)) {
-            throw new UnsupportedOperationException("The system output is not a terminal.");
-        }
 
-        // we need the input and output both to be raw
-        terminal.makeRaw(0);
+        if (opts.makeTerminal()) {
+            terminal = Terminal.create();
+            if (!terminal.isTerminal(0)) {
+                throw new UnsupportedOperationException("The system input is not a terminal.");
+            }
+            if (!terminal.isTerminal(1)) {
+                throw new UnsupportedOperationException("The system output is not a terminal.");
+            }
+
+            // we need the input and output both to be raw
+            terminal.makeRaw(0);
+        }
 
         // rn we will assume that its running inside a terminal but in the future we need to handle everything
         // from my testing, I don't think these signals are ever sent (even when terminal is closed forcefully)
@@ -96,6 +99,7 @@ public abstract class Program {
 
         // set initial size inside the renderer
         processCmd(() -> {
+            // TODO: handle null terminal
             WinSize winSize = terminal.getWinSize();
             return new Msg.WindowSizeMsg(winSize.height(), winSize.width());
         });

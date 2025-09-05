@@ -10,5 +10,4 @@ module dev.weisz.boba {
     requires dev.mccue.color.terminal;
     requires org.apache.commons.lang3;
     requires org.slf4j;
-    requires dev.weisz.boba;
 }

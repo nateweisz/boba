@@ -24,7 +24,9 @@ public class SSHTest {
         sshd.setPort(12133);
 
         var hostKeys = new SimpleGeneratorHostKeyProvider(Paths.get("/tmp/a.ser"));
-        sshd.setShellFactory(InteractiveProcessShellFactory.INSTANCE);
+        sshd.setShellFactory(new BobaShellFactory(
+                (input, out) -> new TestProgram()
+        ));
 
         sshd.setSessionHeartbeat(SessionHeartbeatController.HeartbeatType.IGNORE, Duration.ofSeconds(5));
         sshd.setKeyPairProvider(hostKeys);

@@ -6,9 +6,9 @@ import org.apache.sshd.server.shell.ShellFactory;
 
 import java.io.IOException;
 
-public class BobaShellFactory implements ShellFactory {
+public record BobaShellFactory(ProgramSupplier programSupplier) implements ShellFactory {
     @Override
     public Command createShell(ChannelSession channelSession) {
-        return null;
+        return new BobaShellCommand(programSupplier);
     }
 }

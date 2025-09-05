@@ -22,8 +22,8 @@ public record ProgramOpts(
         String startupTitle,
         SignalHandler winchHandler,
         SignalHandler interruptHandler,
-        SignalHandler terminateHandler
-
+        SignalHandler terminateHandler,
+        boolean makeTerminal
 ) {
     private static final int MIN_FPS = 1;
     private static final int DEFAULT_FPS = 60;
@@ -49,6 +49,7 @@ public record ProgramOpts(
         private SignalHandler winchHandler = new SignalHandler.Winch();
         private SignalHandler interruptHandler = new SignalHandler.Interrupt();
         private SignalHandler terminateHandler = new SignalHandler.Terminate();
+        private boolean makeTerminal = true;
 
         public Builder output(OutputStream output) {
             this.output = output;
@@ -127,6 +128,11 @@ public record ProgramOpts(
             return this;
         }
 
+        public Builder makeTerminal(boolean makeTerminal) {
+            this.makeTerminal = makeTerminal;
+            return this;
+        }
+
         public ProgramOpts build() {
             return new ProgramOpts(
                     output,
@@ -143,7 +149,8 @@ public record ProgramOpts(
                     startupTitle,
                     winchHandler,
                     interruptHandler,
-                    terminateHandler
+                    terminateHandler,
+                    makeTerminal
             );
         }
     }
