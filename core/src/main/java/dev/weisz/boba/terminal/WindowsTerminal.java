@@ -49,7 +49,7 @@ final class WindowsTerminal extends Terminal {
                 return;
             }
 
-            windows_wrapper_h.
+            var hPC = arena.allocate(windows_wrapper_h.)
         }
     }
 

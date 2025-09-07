@@ -185,7 +185,7 @@ extract_windows ARCH PATH="jextract":
         --include-constant ENABLE_LINE_INPUT \
         --include-constant ENABLE_PROCESSED_OUTPUT \
         --include-typedef HANDLE \
-        --include-struct HPCON \
+        --include-typedef HPCON \
         --include-struct _COORD \
         --include-typedef COORD \
         --include-typedef PCOORD \
