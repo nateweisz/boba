@@ -1,3 +1,5 @@
+set windows-shell := ["C:\\Program Files\\Git\\bin\\sh.exe","-c"]
+
 help:
     @just --list
 
@@ -186,6 +188,8 @@ extract_windows ARCH PATH="jextract":
         --include-function GetConsoleScreenBufferInfo \
         --include-function GetCurrentProcess \
         --include-function DuplicateHandle \
+        --include-function CreatePipe
+        --include-function CreatePseudoConsole
         --include-constant DUPLICATE_SAME_ACCESS \
         --include-function GetStdHandle \
         --include-constant STD_OUTPUT_HANDLE \
