@@ -19,7 +19,38 @@ final class WindowsTerminal extends Terminal {
 
     @Override
     public void makeRaw(int fd) {
-        throw new UnsupportedOperationException();
+        try (var arena = Arena.ofConfined()) {
+            var inputReadSide = arena.allocate(windows_wrapper_h.HANDLE);
+            var inputWriteSide = arena.allocate(windows_wrapper_h.HANDLE);
+
+            var outputReadSide = arena.allocate(windows_wrapper_h.HANDLE);
+            var outputWriteSide = arena.allocate(windows_wrapper_h.HANDLE);
+
+            if (windows_wrapper_h.CreatePipe(
+                    inputReadSide,
+                    inputWriteSide,
+                    null,
+                    0
+            ) == 0) {
+                // handle GetLastError here
+                // https://stackoverflow.com/questions/79679982/java-ffm-linker-option-capturecallstate-does-not-successfully-capture-getlast
+
+                return;
+            }
+
+            if (windows_wrapper_h.CreatePipe(
+                    outputReadSide,
+                    outputWriteSide,
+                    null,
+                    0
+            ) == 0) {
+                // read above
+
+                return;
+            }
+
+            windows_wrapper_h.
+        }
     }
 
     @Override
