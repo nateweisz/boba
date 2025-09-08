@@ -180,7 +180,7 @@ extract_windows ARCH PATH="jextract":
         --target-package dev.weisz.boba.c.windows.{{ARCH}} \
         --include-function GetConsoleMode \
         --include-function SetConsoleMode \
-        --include-function ReadConsole \
+        --include-function ReadConsoleTestaASd \
         --include-constant ENABLE_ECHO_INPUT \
         --include-constant ENABLE_PROCESSED_INPUT \
         --include-constant ENABLE_LINE_INPUT \
