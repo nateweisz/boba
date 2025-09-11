@@ -1,4 +1,4 @@
-set windows-shell := ["C:\\Program Files\\Git\\bin\\sh.exe","-c"]
+set windows-shell := ["C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe","-c"]
 
 help:
     @just --list
@@ -180,7 +180,6 @@ extract_windows ARCH PATH="jextract":
         --target-package dev.weisz.boba.c.windows.{{ARCH}} \
         --include-function GetConsoleMode \
         --include-function SetConsoleMode \
-        --include-function ReadConsoleTestaASd \
         --include-constant ENABLE_ECHO_INPUT \
         --include-constant ENABLE_PROCESSED_INPUT \
         --include-constant ENABLE_LINE_INPUT \
@@ -195,6 +194,8 @@ extract_windows ARCH PATH="jextract":
         --include-function DuplicateHandle \
         --include-function CreatePipe \
         --include-function CreatePseudoConsole \
+        --include-function ReadConsole \
+        --include-function WriteFile \
         --include-constant DUPLICATE_SAME_ACCESS \
         --include-function GetStdHandle \
         --include-constant STD_OUTPUT_HANDLE \

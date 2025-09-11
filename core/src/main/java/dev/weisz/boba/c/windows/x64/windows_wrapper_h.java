@@ -179,6 +179,68 @@ public class windows_wrapper_h {
         }
     }
 
+    private static class WriteFile {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            windows_wrapper_h.C_INT,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_LONG,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = windows_wrapper_h.findOrThrow("WriteFile");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+     * }
+     */
+    public static FunctionDescriptor WriteFile$descriptor() {
+        return WriteFile.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+     * }
+     */
+    public static MethodHandle WriteFile$handle() {
+        return WriteFile.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+     * }
+     */
+    public static MemorySegment WriteFile$address() {
+        return WriteFile.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+     * }
+     */
+    public static int WriteFile(MemorySegment hFile, MemorySegment lpBuffer, int nNumberOfBytesToWrite, MemorySegment lpNumberOfBytesWritten, MemorySegment lpOverlapped) {
+        var mh$ = WriteFile.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("WriteFile", hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+            }
+            return (int)mh$.invokeExact(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
     private static class DuplicateHandle {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
             windows_wrapper_h.C_INT,

@@ -70,7 +70,7 @@ final class WindowsTerminal extends Terminal {
             );
 
             return new WindowsInOut(
-                    new WindowsInputStream(outArena, inputWriteSide),
+                    new WindowsInputStream(inArena, inputWriteSide),
                     null
             );
         }

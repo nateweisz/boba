@@ -1,5 +1,7 @@
 package dev.weisz.boba.terminal;
 
+import dev.weisz.boba.c.windows.x64.windows_wrapper_h;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.foreign.Arena;
